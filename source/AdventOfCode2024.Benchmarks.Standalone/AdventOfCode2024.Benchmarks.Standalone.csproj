@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.13.10" />
+    </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\AdventOfCode2024\Assets\**">
+			<Link>Assets\%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day01.txt">
+		  <Link>Assets\Day01.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day02.txt">
+		  <Link>Assets\Day02.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day03.txt">
+		  <Link>Assets\Day03.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day04.txt">
+		  <Link>Assets\Day04.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day05.txt">
+		  <Link>Assets\Day05.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day06.txt">
+		  <Link>Assets\Day06.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day07.txt">
+		  <Link>Assets\Day07.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day08.txt">
+		  <Link>Assets\Day08.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day09.txt">
+		  <Link>Assets\Day09.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day10.txt">
+		  <Link>Assets\Day10.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day11.txt">
+		  <Link>Assets\Day11.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day12.txt">
+		  <Link>Assets\Day12.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day13.txt">
+		  <Link>Assets\Day13.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day14.txt">
+		  <Link>Assets\Day14.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day15.txt">
+		  <Link>Assets\Day15.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day16.txt">
+		  <Link>Assets\Day16.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\AdventOfCode2024\Assets\Day17.txt">
+		  <Link>Assets\Day17.txt</Link>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>
