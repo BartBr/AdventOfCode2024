@@ -44,7 +44,7 @@ var activatedPuzzleRecords = HappyPuzzleHelpers
 	.Select(puzzles =>
 	{
 		var yourPuzzle = puzzles.Find(puzzle => puzzle.Name.StartsWith(yourName))
-		                 ?? throw new MissingMethodException("Could not find a puzzle beginning with 'Bart'");
+		                 ?? throw new MissingMethodException($"Could not find a puzzle beginning with '{yourName}'");
 		return new ActivatorRecord(yourPuzzle.Name, (HappyPuzzleBase) Activator.CreateInstance(yourPuzzle)!);
 	})
 	.ToList();
