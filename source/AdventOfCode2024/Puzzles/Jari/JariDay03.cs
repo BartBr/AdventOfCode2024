@@ -60,6 +60,26 @@ public class JariDay03 : HappyPuzzleBase
 
 	public override object SolvePart2(Input input)
 	{
-		throw new NotImplementedException();
+		int sum = 0;
+		bool instructionsEnabled = true;
+
+		for (int i = 3; i < input.Text.Length - 2; i++)
+		{
+			if (instructionsEnabled == false && input.Text[i - 2] == 'd' && input.Text[i - 1] == 'o' && input.Text[i] == '(' && input.Text[i + 1] == ')')
+			{
+				instructionsEnabled = true;
+			}
+			else if (instructionsEnabled && input.Text[i - 3] == 'm' && input.Text[i - 2] == 'u' && input.Text[i - 1] == 'l' && input.Text[i] == '(')
+			{
+				i = TryGetProduct(i, input.Text, out int product);
+				sum += product;
+			}
+			else if (i + 3 < input.Text.Length && input.Text[i - 3] == 'd' && input.Text[i - 2] == 'o' && input.Text[i - 1] == 'n' && input.Text[i] == '\'' && input.Text[i + 1] == 't' && input.Text[i + 2] == '(' && input.Text[i + 3] == ')')
+			{
+				instructionsEnabled = false;
+			}
+		}
+
+		return sum;
 	}
 }
