@@ -2,11 +2,17 @@ using JetBrains.Annotations;
 
 namespace AdventOfCode2024.Common;
 
-[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
-public abstract class HappyPuzzleBase
-{
-	public virtual string AssetName => GetType().Name[^5..].ToLowerInvariant() + ".txt";
+public abstract class HappyPuzzleBase<TReturn> : HappyPuzzleBase<TReturn, TReturn>;
 
-	public abstract object SolvePart1(Input input);
-	public abstract object SolvePart2(Input input);
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
+public abstract class HappyPuzzleBase<TReturnPart1, TReturnPart2> : IHappyPuzzle<TReturnPart1, TReturnPart2>
+{
+	public abstract TReturnPart1 SolvePart1(Input input);
+	public abstract TReturnPart2 SolvePart2(Input input);
+}
+
+public interface IHappyPuzzle<out TReturnPart1, out TReturnPart2>
+{
+	TReturnPart1 SolvePart1(Input input);
+	TReturnPart2 SolvePart2(Input input);
 }
