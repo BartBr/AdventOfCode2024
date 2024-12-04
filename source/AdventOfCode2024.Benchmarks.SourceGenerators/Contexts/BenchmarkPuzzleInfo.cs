@@ -1,6 +1,6 @@
 namespace AdventOfCode2024.Benchmarks.SourceGenerators.Contexts;
 
-public sealed class BenchmarkPuzzleInfo
+internal sealed class BenchmarkPuzzleInfo
 {
 	public readonly string GroupKey;
 	public readonly string Username;
