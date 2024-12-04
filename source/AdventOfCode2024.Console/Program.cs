@@ -18,7 +18,7 @@ var activatedPuzzleRecords = HappyPuzzleHelpers
 
 foreach (var puzzleRecord in activatedPuzzleRecords)
 {
-	Console.WriteLine($"=== {puzzleRecord.Name} ".PadRight(80, '='));
+	Console.WriteLine($"=== {puzzleRecord.Name} ({puzzleRecord.ActivatedPuzzle.GetType().FullName}) ".PadRight(80, '='));
 
 	Console.WriteLine("Reading input");
 	var input = Helpers.GetInput(puzzleRecord.Name, yourName);
