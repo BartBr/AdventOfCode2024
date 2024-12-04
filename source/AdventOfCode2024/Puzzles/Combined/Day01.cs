@@ -1,13 +1,13 @@
 using AdventOfCode2024.Common;
 
-namespace AdventOfCode2024.Puzzles.Bart;
+namespace AdventOfCode2024.Puzzles.Combined;
 
 /// <remarks>
 /// By default, the <see cref="Input"/> parameter of both <see cref="SolvePart1"/> and <see cref="SolvePart2"/> will give access to the file
 /// in the Assets folder that has the same name as the class, followed by the .txt extension.
 /// However, if you want to use a different name, then you can override the virtual property <see cref="HappyPuzzleBase.AssetName"/>
 /// </remarks>
-public class BartDay01 : HappyPuzzleBase<long>
+public class Day01 : HappyPuzzleBase<long>
 {
 	public override long SolvePart1(Input input)
 	{
@@ -18,9 +18,7 @@ public class BartDay01 : HappyPuzzleBase<long>
 
 		for (var i = 0; i < inputRows; i++)
 		{
-			var span = input.Lines[i].AsSpan();
-			var first = int.Parse(span[..5]);
-			var second = int.Parse(span[^5..]);
+			ParseInput(input.Lines[i], out var first, out var second);
 
 			firstList[i] = first;
 			secondList[i] = second;
@@ -49,9 +47,7 @@ public class BartDay01 : HappyPuzzleBase<long>
 
 		for (var i = 0; i < inputRows; i++)
 		{
-			var span = input.Lines[i].AsSpan();
-			var first = int.Parse(span[..5]);
-			var second = int.Parse(span[^5..]);
+			ParseInput(input.Lines[i], out var first, out var second);
 			firstList[i] = first;
 			histogramSecondList[second]++;
 		}
@@ -63,6 +59,30 @@ public class BartDay01 : HappyPuzzleBase<long>
 			total += diff;
 		}
 		return total;
+	}
+
+	private static void ParseInput(string input, out int left, out int right)
+	{
+		left = 0;
+
+		var number = 0;
+		for (var characterIndex = 0; characterIndex < input.Length; characterIndex++)
+		{
+			var c = input[characterIndex];
+			if (c is >= '0' and <= '9')
+			{
+				number *= 10;
+				number += c - '0';
+			}
+			else
+			{
+				left = number;
+				number = 0;
+				characterIndex += 2;
+			}
+		}
+
+		right = number;
 	}
 
 }
