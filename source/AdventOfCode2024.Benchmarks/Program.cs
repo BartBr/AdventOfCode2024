@@ -9,7 +9,8 @@ var config = DefaultConfig.Instance
 	.AddColumn(StatisticColumn.AllStatistics)
 	.AddColumn(BaselineRatioColumn.RatioMean)
 	.AddDiagnoser(MemoryDiagnoser.Default)
-	.WithOrderer(new DefaultOrderer());
+	.AddLogicalGroupRules(BenchmarkLogicalGroupRule.ByCategory, BenchmarkLogicalGroupRule.ByParams)
+	.WithOrderer(new DefaultOrderer(SummaryOrderPolicy.FastestToSlowest));
 
 // Runs latest benchmark
 BenchmarkRunner.Run<AdventOfCode2024.Benchmarks.Generated.LastPuzzleBenchmark>(config);
