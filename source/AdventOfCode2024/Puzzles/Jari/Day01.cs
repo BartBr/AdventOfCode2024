@@ -7,9 +7,9 @@ namespace AdventOfCode2024.Puzzles.Jari;
 /// in the Assets folder that has the same name as the class, followed by the .txt extension.
 /// However, if you want to use a different name, then you can override the virtual property <see cref="HappyPuzzleBase.AssetName"/>
 /// </remarks>
-public class JariDay01 : HappyPuzzleBase
+public class Day01 : HappyPuzzleBase<int>
 {
-	public override object SolvePart1(Input input)
+	public override int SolvePart1(Input input)
 	{
 		var sum = 0;
 		var list1 = new List<int>(input.Lines.Length);
@@ -35,7 +35,7 @@ public class JariDay01 : HappyPuzzleBase
 	}
 
 
-	public override object SolvePart2(Input input)
+	public override int SolvePart2(Input input)
 	{
 		var sum = 0;
 		var list1 = new List<int>(input.Lines.Length);
