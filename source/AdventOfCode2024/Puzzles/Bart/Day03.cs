@@ -8,9 +8,9 @@ namespace AdventOfCode2024.Puzzles.Bart;
 /// in the Assets folder that has the same name as the class, followed by the .txt extension.
 /// However, if you want to use a different name, then you can override the virtual property <see cref="HappyPuzzleBase.AssetName"/>
 /// </remarks>
-public class BartDay03 : HappyPuzzleBase
+public class Day03 : HappyPuzzleBase<long>
 {
-	public override object SolvePart1(Input input)
+	public override long SolvePart1(Input input)
 	{
 		var inputSpan = input.Text.AsSpan();
 		return SumValidProducts(inputSpan);
@@ -69,7 +69,7 @@ public class BartDay03 : HappyPuzzleBase
 	private static readonly SearchValues<string> DontFuncSearchValues = SearchValues.Create(["don't()"], StringComparison.Ordinal);
 	private static readonly SearchValues<string> DoFuncSearchValues = SearchValues.Create(["do()"], StringComparison.Ordinal);
 
-	public override object SolvePart2(Input input)
+	public override long SolvePart2(Input input)
 	{
 		return input.Lines.Sum(CalculateSumForLine);
 	}

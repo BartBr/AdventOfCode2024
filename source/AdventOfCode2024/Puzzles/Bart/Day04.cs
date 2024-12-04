@@ -1,4 +1,3 @@
-using System.Buffers;
 using System.Text.RegularExpressions;
 using AdventOfCode2024.Common;
 
@@ -9,9 +8,9 @@ namespace AdventOfCode2024.Puzzles.Bart;
 /// in the Assets folder that has the same name as the class, followed by the .txt extension.
 /// However, if you want to use a different name, then you can override the virtual property <see cref="HappyPuzzleBase.AssetName"/>
 /// </remarks>
-public partial class BartDay04 : HappyPuzzleBase
+public partial class Day04 : HappyPuzzleBase<long>
 {
-	public override object SolvePart1(Input input)
+	public override long SolvePart1(Input input)
 	{
 		var rows = input.Lines.Length;
 		var columns = input.Lines[0].Length;
@@ -117,7 +116,7 @@ public partial class BartDay04 : HappyPuzzleBase
 		return XmasGeneratedRegex().Count(span) + SamxGeneratedRegex().Count(span);
 	}
 
-	public override object SolvePart2(Input input)
+	public override long SolvePart2(Input input)
 	{
 		var rows = input.Lines.Length;
 		var cols = input.Lines[0].Length;
