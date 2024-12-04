@@ -2,9 +2,9 @@ using AdventOfCode2024.Common;
 
 namespace AdventOfCode2024.Puzzles.Jari;
 
-public class JariDay03 : HappyPuzzleBase
+public class JariDay03 : HappyPuzzleBase<int>
 {
-	public override object SolvePart1(Input input)
+	public override int SolvePart1(Input input)
 	{
 		int sum = 0;
 		for (int i = 3; i < input.Text.Length; i++)
@@ -58,7 +58,7 @@ public class JariDay03 : HappyPuzzleBase
 		return pos;
 	}
 
-	public override object SolvePart2(Input input)
+	public override int SolvePart2(Input input)
 	{
 		int sum = 0;
 		bool instructionsEnabled = true;

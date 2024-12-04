@@ -2,9 +2,9 @@ using AdventOfCode2024.Common;
 
 namespace AdventOfCode2024.Puzzles.Jens;
 
-public class JensDay03 : HappyPuzzleBase
+public class Day03 : HappyPuzzleBase<int>
 {
-	public override object SolvePart1(Input input)
+	public override int SolvePart1(Input input)
 	{
 		var readOnlySpan = input.Text.AsSpan();
 
@@ -54,7 +54,7 @@ public class JensDay03 : HappyPuzzleBase
 		return totalScore;
 	}
 
-	public override object SolvePart2(Input input)
+	public override int SolvePart2(Input input)
 	{
 		var readOnlySpan = input.Text.AsSpan();
 

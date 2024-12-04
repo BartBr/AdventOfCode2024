@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "DebugRoslynSourceGenerator": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "../AdventOfCode2024.Benchmarks/AdventOfCode2024.Benchmarks.csproj"
+    }
+  }
+}

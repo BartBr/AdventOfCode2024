@@ -3,9 +3,9 @@ using AdventOfCode2024.Common;
 
 namespace AdventOfCode2024.Puzzles.Jens;
 
-public class JensDay02 : HappyPuzzleBase
+public class Day02 : HappyPuzzleBase<uint>
 {
-	public override object SolvePart1(Input input)
+	public override uint SolvePart1(Input input)
 	{
 		uint safeCount = 0;
 
@@ -52,7 +52,7 @@ public class JensDay02 : HappyPuzzleBase
 		safeCount++;
 	}
 
-	public override object SolvePart2(Input input)
+	public override uint SolvePart2(Input input)
 	{
 		uint safeCount = 0;
 

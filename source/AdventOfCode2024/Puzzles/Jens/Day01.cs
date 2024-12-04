@@ -7,11 +7,11 @@ namespace AdventOfCode2024.Puzzles.Jens;
 /// in the Assets folder that has the same name as the class, followed by the .txt extension.
 /// However, if you want to use a different name, then you can override the virtual property <see cref="HappyPuzzleBase.AssetName"/>
 /// </remarks>
-public class JensDay01 : HappyPuzzleBase
+public class Day01 : HappyPuzzleBase<int>
 {
 	private const int BUFFER_SIZE = 1000;
 
-	public override object SolvePart1(Input input)
+	public override int SolvePart1(Input input)
 	{
 		scoped Span<int> left = stackalloc int[BUFFER_SIZE];
 		scoped Span<int> right = stackalloc int[BUFFER_SIZE];
@@ -30,7 +30,7 @@ public class JensDay01 : HappyPuzzleBase
 		return sumDistance;
 	}
 
-	public override object SolvePart2(Input input)
+	public override int SolvePart2(Input input)
 	{
 		scoped Span<int> left = stackalloc int[BUFFER_SIZE];
 		scoped Span<int> right = stackalloc int[BUFFER_SIZE];
