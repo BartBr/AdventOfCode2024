@@ -2,7 +2,7 @@ using AdventOfCode2024.Common;
 
 namespace AdventOfCode2024.Puzzles.Jari;
 
-public class JariDay03 : HappyPuzzleBase<int>
+public class Day03 : HappyPuzzleBase<int>
 {
 	public override int SolvePart1(Input input)
 	{
