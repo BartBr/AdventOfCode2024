@@ -92,42 +92,57 @@ public class Day05 : HappyPuzzleBase<int>
 
 		var sum = 0;
 
-		scoped Span<int> pageUpdateBuffer = stackalloc int[40];
+		scoped Span<int> pageUpdateBuffer = stackalloc int[60];
 		for (; i < inputLines.Length; i++)
 		{
 			currentLine = inputLines[i];
-
-			var pageCount = 0;
-			for (; pageCount < (currentLine.Length + 1) / 3; pageCount++)
-			{
-				pageUpdateBuffer[pageCount] = (currentLine[pageCount * 3] - '0') * 10 + (currentLine[pageCount * 3 + 1] - '0');
-			}
+			pageUpdateBuffer[0] = (currentLine[0] - '0') * 10 + (currentLine[1] - '0');
 
 			var addToSum = false;
-			for (var j = 1; j < pageCount; j++)
+			var pageCount = 1;
+			for (; pageCount < (currentLine.Length + 1) / 3;)
 			{
-				var currentPage = pageUpdateBuffer[j];
-				var lookupTableSlice = lookupTable.Slice(currentPage * 100, 100);
+				// Parse the number
+				var currentNumber = (currentLine[pageCount * 3] - '0') * 10 + (currentLine[pageCount * 3 + 1] - '0');
 
-				for (var k = 0; k < j; k++)
+				// Lookup relevant slice of pages that have to be after the current number
+				var lookupTableSlice = lookupTable.Slice(currentNumber * 100, 100);
+
+				pageUpdateBuffer[pageCount] = currentNumber;
+				++pageCount;
+
+				// Check if any of the previous pages are in the lookup and have to be after the current number
+				// If so, move the offending page to after the current number with an offset (starting with 0, and incrementing for each found page)
+				// If the page is in the correct place orderwise, then move the page to its correct index in the buffer, based on the current offset
+				var offset = 0;
+				for (var kIndex = 0; kIndex < pageCount; kIndex++)
 				{
-					var referencePage = pageUpdateBuffer[k];
+					var referencePage = pageUpdateBuffer[kIndex];
 					if (lookupTableSlice[referencePage])
 					{
-						for (var l = k; l < j - k; l++)
-						{
-							pageUpdateBuffer[l] = pageUpdateBuffer[l + 1];
-						}
-
-						pageUpdateBuffer[j] = referencePage;
-						--j;
+						pageUpdateBuffer[pageCount + offset] = referencePage;
+						++offset;
 
 						addToSum = true;
 					}
+					else
+					{
+						// This could technically be guarded by an offset != 0 check,
+						// but it's faster to just do it every time since the result will stay the same regardless,
+						// and it also results in less misses in the branch predictor of the CPU
+						pageUpdateBuffer[kIndex - offset] = referencePage;
+					}
+				}
+
+				// If any of the pages were moved, then shift them back inside the scope of the current page count
+				for (var kIndex = pageCount; kIndex < pageCount + offset; kIndex++)
+				{
+					pageUpdateBuffer[kIndex - 1] = pageUpdateBuffer[kIndex];
 				}
 			}
 
-			if (addToSum) {
+			if (addToSum)
+			{
 				// Rounding down with integers will make this go to the correct index
 				sum += pageUpdateBuffer[(pageCount / 2)];
 			}
