@@ -80,6 +80,7 @@ public class Day07 : HappyPuzzleBase<long>
 	public override long SolvePart2(Input input)
 	{
 		scoped Span<long> operandsBuffer = stackalloc long[20];
+		scoped Span<long> operandsConcatOffsetBuffer = stackalloc long[20];
 
 		var sum = 0L;
 		foreach (var line in input.Lines)
@@ -103,6 +104,8 @@ public class Day07 : HappyPuzzleBase<long>
 			var operandIndex = 0;
 			ref var operand = ref operandsBuffer[operandIndex];
 			operand = 0;
+			ref var operandConcatOffset = ref operandsConcatOffsetBuffer[operandIndex];
+			operandConcatOffset = 1;
 			for (; characterIndex < line.Length; characterIndex++)
 			{
 				var c = line[characterIndex];
@@ -110,15 +113,18 @@ public class Day07 : HappyPuzzleBase<long>
 				{
 					operand = ref operandsBuffer[++operandIndex];
 					operand = 0;
+					operandConcatOffset = ref operandsConcatOffsetBuffer[operandIndex];
+					operandConcatOffset = 1;
 				}
 				else
 				{
 					operand = operand * 10 + (c - '0');
+					operandConcatOffset *= 10;
 				}
 			}
 
-			var slicedOperandsBuffer = operandsBuffer.Slice(1, operandIndex);
-			if (Part2_PermutateOperatorsAndValidate(slicedOperandsBuffer, 0, operandsBuffer[0], expectedResult))
+			var slicedOperandsBuffer = operandsBuffer.Slice(0, operandIndex + 1);
+			if (Part2_PermutateOperatorsAndValidate(slicedOperandsBuffer, 1, operandsConcatOffsetBuffer, operandsBuffer[0], expectedResult))
 			{
 				sum += expectedResult;
 			}
@@ -127,7 +133,7 @@ public class Day07 : HappyPuzzleBase<long>
 		return sum;
 	}
 
-	private static bool Part2_PermutateOperatorsAndValidate(Span<long> operandsBuffer, int operandsBufferIndex, long currentResult, long expectedResult)
+	private static bool Part2_PermutateOperatorsAndValidate(Span<long> operandsBuffer, int operandsBufferIndex, Span<long> operandsConcatOffsetBuffer, long currentResult, long expectedResult)
 	{
 		if (currentResult > expectedResult)
 		{
@@ -145,21 +151,11 @@ public class Day07 : HappyPuzzleBase<long>
 		}
 
 		var currentOperand = operandsBuffer[operandsBufferIndex];
+		var currentOperandConcatOffset = operandsConcatOffsetBuffer[operandsBufferIndex];
 		++operandsBufferIndex;
 
-		return Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult * Part2_CalculateOffsetMultiplier(currentOperand) + currentOperand, expectedResult)
-		       ||Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult * currentOperand, expectedResult)
-		       || Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult + currentOperand, expectedResult);
-	}
-
-	private static long Part2_CalculateOffsetMultiplier(long currentOperand)
-	{
-		var multiplier = 1;
-		for (var i = currentOperand; i > 0; i /= 10)
-		{
-			multiplier *= 10;
-		}
-
-		return multiplier;
+		return Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, operandsConcatOffsetBuffer, currentResult * currentOperand, expectedResult)
+		       || Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, operandsConcatOffsetBuffer, currentResult + currentOperand, expectedResult)
+		       || Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, operandsConcatOffsetBuffer, currentResult * currentOperandConcatOffset + currentOperand, expectedResult);
 	}
 }
