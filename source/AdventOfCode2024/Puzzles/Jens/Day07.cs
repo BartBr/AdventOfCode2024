@@ -118,7 +118,7 @@ public class Day07 : HappyPuzzleBase<long>
 			}
 
 			var slicedOperandsBuffer = operandsBuffer.Slice(1, operandIndex);
-			if (Part2_PermutateOperatorsAndValidate(ref slicedOperandsBuffer, 0, operandsBuffer[0], expectedResult))
+			if (Part2_PermutateOperatorsAndValidate(slicedOperandsBuffer, 0, operandsBuffer[0], expectedResult))
 			{
 				sum += expectedResult;
 			}
@@ -127,7 +127,7 @@ public class Day07 : HappyPuzzleBase<long>
 		return sum;
 	}
 
-	private static bool Part2_PermutateOperatorsAndValidate(ref Span<long> operandsBuffer, int operandsBufferIndex, long currentResult, long expectedResult)
+	private static bool Part2_PermutateOperatorsAndValidate(Span<long> operandsBuffer, int operandsBufferIndex, long currentResult, long expectedResult)
 	{
 		if (currentResult > expectedResult)
 		{
@@ -147,13 +147,19 @@ public class Day07 : HappyPuzzleBase<long>
 		var currentOperand = operandsBuffer[operandsBufferIndex];
 		++operandsBufferIndex;
 
-		return Part2_PermutateOperatorsAndValidate(ref operandsBuffer, operandsBufferIndex, currentResult * Part2_CalculateOffsetMultiplier(currentOperand) + currentOperand, expectedResult)
-		       ||Part2_PermutateOperatorsAndValidate(ref operandsBuffer, operandsBufferIndex, currentResult * currentOperand, expectedResult)
-		       || Part2_PermutateOperatorsAndValidate(ref operandsBuffer, operandsBufferIndex, currentResult + currentOperand, expectedResult);
+		return Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult * Part2_CalculateOffsetMultiplier(currentOperand) + currentOperand, expectedResult)
+		       ||Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult * currentOperand, expectedResult)
+		       || Part2_PermutateOperatorsAndValidate(operandsBuffer, operandsBufferIndex, currentResult + currentOperand, expectedResult);
 	}
 
 	private static long Part2_CalculateOffsetMultiplier(long currentOperand)
 	{
-		return (long) Math.Pow(10, ((int)Math.Log10(Math.Abs(currentOperand)) + 1));
+		var multiplier = 1;
+		for (var i = currentOperand; i > 0; i /= 10)
+		{
+			multiplier *= 10;
+		}
+
+		return multiplier;
 	}
 }
