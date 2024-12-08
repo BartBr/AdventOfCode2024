@@ -142,7 +142,8 @@ public class Day07 : HappyPuzzleBase<ulong>
 
 	private static ulong CanFormTotalPart2(ReadOnlySpan<ulong> numbers, ulong total)
 	{
-		Span<ulong> totals = stackalloc ulong[int.MaxValue/12000];
+		var permutations = Math.Pow(3, numbers.Length - 1);
+		Span<ulong> totals = stackalloc ulong[(int)permutations];
 
 		totals[0] = numbers[0];
 		var sumCount = 1;
