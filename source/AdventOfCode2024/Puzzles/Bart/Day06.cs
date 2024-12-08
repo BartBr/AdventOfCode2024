@@ -228,50 +228,6 @@ public class Day06 : HappyPuzzleBase<int>
 		return loopedPermutations;
 	}
 
-	// private static void PrintLoop(ref Span<char> inputSpan, ref Span<bool> visitedDowns, ref Span<bool> visitedUps, ref Span<bool> visitedLefts, ref Span<bool> visitedRights, ref int columns, ref int rows, int replacedX, int replacedY)
-	// {
-	// 	Console.WriteLine();
-	// 	Console.WriteLine("Endless loop when replacing: " + replacedX + "," + replacedY);
-	//
-	// 	for (var y = 0; y < rows; y++)
-	// 	{
-	// 		for (var x = 0; x < columns; x++)
-	// 		{
-	// 			var pos = x + y * columns;
-	// 			if(x == 4 && y == 6)
-	// 			{
-	// 				Console.Write("^");
-	// 			}
-	// 			else if (x == replacedX && y == replacedY)
-	// 			{
-	// 				Console.Write("O");
-	// 			}
-	// 			else if(inputSpan[pos] == '#')
-	// 			{
-	// 				Console.Write("#");
-	// 			}
-	// 			else if ((visitedUps[pos] || visitedDowns[pos]) && (visitedLefts[pos] || visitedRights[pos]))
-	// 			{
-	// 				Console.Write("+");
-	// 			}
-	// 			else if (visitedUps[pos] || visitedDowns[pos])
-	// 			{
-	// 				Console.Write("|");
-	// 			}
-	// 			else if (visitedLefts[pos] || visitedRights[pos])
-	// 			{
-	// 				Console.Write("-");
-	// 			}
-	// 			else
-	// 			{
-	// 				Console.Write(".");
-	// 			}
-	// 		}
-	// 		Console.WriteLine();
-	// 	}
-	// 	Console.WriteLine();
-	// }
-
 	private static int CheckIfLooped(ref Span<char> inputSpan, int columns, int rows, int startX, int startY, char startDirection, ref Span<char> nextDirection, ref Span<bool> visitedUps, ref Span<bool> visitedDowns, ref Span<bool> visitedLefts, ref Span<bool> visitedRights)
 	{
 		var posX = startX;
