@@ -18,7 +18,7 @@ public class Day05 : HappyPuzzleBase<int>
 			lineCounter++;
 		}
 
-		for (lineCounter += 1;lineCounter < input.Lines.Length; lineCounter++)
+		for (lineCounter += 1; lineCounter < input.Lines.Length; lineCounter++)
 		{
 			IsCorrectlyOrdered(input.Lines[lineCounter], rules, ref sum);
 		}
@@ -48,6 +48,57 @@ public class Day05 : HappyPuzzleBase<int>
 
 	public override int SolvePart2(Input input)
 	{
-		return 0;
+		scoped Span<bool> rules = stackalloc bool[10_000];
+		scoped Span<int> workTable = stackalloc int[50];
+		int sum = 0;
+		int lineCounter = 0;
+
+		while (input.Lines[lineCounter].Length != 0)
+		{
+			var index = ((input.Lines[lineCounter][0] - '0') * 1_000) + ((input.Lines[lineCounter][1] - '0') * 100) + ((input.Lines[lineCounter][3] - '0') * 10) + (input.Lines[lineCounter][4] - '0');
+			rules[index] = true;
+
+			lineCounter++;
+		}
+
+		for (lineCounter += 1; lineCounter < input.Lines.Length; lineCounter++)
+		{
+			IsCorrectlyOrdered_P2(input.Lines[lineCounter], rules, ref sum, ref workTable);
+		}
+
+		return sum;
+	}
+
+	private void IsCorrectlyOrdered_P2(string updates, Span<bool> rules, ref int sum, ref Span<int> workTable)
+	{
+		int tmp;
+		bool incorrect = false;
+		int pagesNumbers = updates.Length / 3 + 1;
+		int i, j, m;
+
+		for (m = 0; m < pagesNumbers; m++)
+		{
+			workTable[m] = (((updates[m * 3] - '0') * 10) + (updates[m * 3 + 1] - '0'));
+		}
+
+		for (i = 0; i < pagesNumbers - 1; i++)
+		{
+			for (j = i + 1; j < pagesNumbers; j++)
+			{
+				if (rules[workTable[j] * 100 + workTable[i]])
+				{
+					tmp = workTable[j];
+					workTable[j] = workTable[i];
+					workTable[i] = tmp;
+					incorrect = true;
+					j = i;
+				}
+			}
+		}
+
+		if (incorrect)
+		{
+			sum += workTable[pagesNumbers / 2];
+		}
 	}
 }
