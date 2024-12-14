@@ -32,7 +32,7 @@ public class Day11 : HappyPuzzleBase<ulong>
 	private static ulong CountNmbrsAfterBlinks(ulong startNmbr, int blinks)
 	{
 		Span<ulong> currentRow = stackalloc ulong[1];
-		currentRow[0] = (ulong)startNmbr;
+		currentRow[0] = startNmbr;
 
 		for (var i = 0; i < blinks; i++)
 		{
@@ -65,12 +65,12 @@ public class Day11 : HappyPuzzleBase<ulong>
 		}
 		return (ulong)currentRow.Length;
 	}
+
 	private static void SplitNumberInTwo(ulong number, int digits, out ulong nmbr1, out ulong nmbr2)
 	{
 		var half = digits / 2;
 		ulong power = 1;
 
-		// Compute 10^(half) using a loop instead of Math.Pow
 		for (var i = 0; i < half; i++)
 		{
 			power *= 10;
@@ -90,9 +90,43 @@ public class Day11 : HappyPuzzleBase<ulong>
 
 		return count;
 	}
+
+	private static ulong CountNmbrsAfterBlinksRecursive(ulong startNmbr, int blinks)
+	{
+		var index = startNmbr * 100 + (ulong)blinks;
+		if (_cache.TryGetValue(index, out var cached))
+		{
+			return cached;
+		}
+
+		if (blinks == 0) return 1;
+		if (startNmbr == 0)
+		{
+			var sum = CountNmbrsAfterBlinksRecursive(1, blinks-1);
+			_cache[index] = sum;
+			return sum;
+		}
+
+		var digits = GetDigitCount(startNmbr);
+		if (digits % 2 == 0)
+		{
+			SplitNumberInTwo(startNmbr, digits, out var nmbr1, out var nmbr2);
+			var sum = CountNmbrsAfterBlinksRecursive(nmbr1, blinks - 1)
+			          + CountNmbrsAfterBlinksRecursive(nmbr2, blinks - 1);
+			_cache[index] = sum;
+			return sum;
+		}
+
+		var sum3 =  CountNmbrsAfterBlinksRecursive(startNmbr * 2024, blinks - 1);
+		_cache[index] = sum3;
+		return sum3;
+	}
+
+	private static Dictionary<ulong, ulong> _cache;
+
 	public override ulong SolvePart2(Input input)
 	{
-		throw new NotImplementedException();
+		_cache = new Dictionary<ulong, ulong>();
 		ulong sum = 0;
 
 		var readingNmbr = 0;
@@ -100,7 +134,7 @@ public class Day11 : HappyPuzzleBase<ulong>
 		{
 			if(input.Lines[0][i] == ' ')
 			{
-				sum += CountNmbrsAfterBlinks((ulong)readingNmbr, 75);
+				sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75);
 				readingNmbr = 0;
 			}
 			else
@@ -110,7 +144,7 @@ public class Day11 : HappyPuzzleBase<ulong>
 		}
 		if (input.Lines[0][input.Lines[0].Length - 1] != ' ')
 		{
-			sum += CountNmbrsAfterBlinks((ulong)readingNmbr, 75);
+			sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75);
 		}
 
 		return sum;
