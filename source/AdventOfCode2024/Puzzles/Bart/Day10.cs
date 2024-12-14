@@ -1,4 +1,3 @@
-using System.Formats.Asn1;
 using AdventOfCode2024.Common;
 
 namespace AdventOfCode2024.Puzzles.Bart;
@@ -11,10 +10,9 @@ public class Day10 : HappyPuzzleBase<int>
 	{
 		var sum = 0;
 
-
-		for (int y = 0; y < input.Lines.Length; y++)
+		for (var y = 0; y < input.Lines.Length; y++)
 		{
-			for (int x = 0; x < input.Lines[0].Length; x++)
+			for (var x = 0; x < input.Lines[0].Length; x++)
 			{
 				if (input.Lines[y][x] == Start)
 				{
