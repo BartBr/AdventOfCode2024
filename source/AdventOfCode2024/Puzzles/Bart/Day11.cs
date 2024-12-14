@@ -91,19 +91,21 @@ public class Day11 : HappyPuzzleBase<ulong>
 		return count;
 	}
 
-	private static ulong CountNmbrsAfterBlinksRecursive(ulong startNmbr, int blinks)
+	private static ulong CountNmbrsAfterBlinksRecursive(ulong startNmbr, int blinks, ref Span<(int blinks, ulong nmbr, ulong count)> resultDict, ref int resultDictLength)
 	{
-		var index = startNmbr * 100 + (ulong)blinks;
-		if (_cache.TryGetValue(index, out var cached))
+		for (var i = 0; i < resultDictLength; i++)
 		{
-			return cached;
+			if(resultDict[i].blinks == blinks && resultDict[i].nmbr == startNmbr)
+			{
+				return resultDict[i].count;
+			}
 		}
 
 		if (blinks == 0) return 1;
 		if (startNmbr == 0)
 		{
-			var sum = CountNmbrsAfterBlinksRecursive(1, blinks-1);
-			_cache[index] = sum;
+			var sum = CountNmbrsAfterBlinksRecursive(1, blinks-1, ref resultDict, ref resultDictLength);
+			resultDict[resultDictLength++] = (blinks, startNmbr, sum);
 			return sum;
 		}
 
@@ -111,30 +113,30 @@ public class Day11 : HappyPuzzleBase<ulong>
 		if (digits % 2 == 0)
 		{
 			SplitNumberInTwo(startNmbr, digits, out var nmbr1, out var nmbr2);
-			var sum = CountNmbrsAfterBlinksRecursive(nmbr1, blinks - 1)
-			          + CountNmbrsAfterBlinksRecursive(nmbr2, blinks - 1);
-			_cache[index] = sum;
+			var sum = CountNmbrsAfterBlinksRecursive(nmbr1, blinks - 1, ref resultDict, ref resultDictLength)
+			          + CountNmbrsAfterBlinksRecursive(nmbr2, blinks - 1, ref resultDict, ref resultDictLength);
+			resultDict[resultDictLength++] = (blinks, startNmbr, sum);
 			return sum;
 		}
 
-		var sum3 =  CountNmbrsAfterBlinksRecursive(startNmbr * 2024, blinks - 1);
-		_cache[index] = sum3;
+		var sum3 =  CountNmbrsAfterBlinksRecursive(startNmbr * 2024, blinks - 1, ref resultDict, ref resultDictLength);
+		resultDict[resultDictLength++] = (blinks, startNmbr, sum3);
 		return sum3;
 	}
 
-	private static Dictionary<ulong, ulong> _cache;
-
 	public override ulong SolvePart2(Input input)
 	{
-		_cache = new Dictionary<ulong, ulong>();
+		scoped Span<(int blinks, ulong nmbr, ulong count)> resultDict = stackalloc (int blinks, ulong nmbr, ulong count)[200000];
+
 		ulong sum = 0;
+		int resultDictLength = 0;
 
 		var readingNmbr = 0;
 		for (var i = 0; i < input.Lines[0].Length; i++)
 		{
 			if(input.Lines[0][i] == ' ')
 			{
-				sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75);
+				sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75, ref resultDict, ref resultDictLength);
 				readingNmbr = 0;
 			}
 			else
@@ -144,7 +146,7 @@ public class Day11 : HappyPuzzleBase<ulong>
 		}
 		if (input.Lines[0][input.Lines[0].Length - 1] != ' ')
 		{
-			sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75);
+			sum += CountNmbrsAfterBlinksRecursive((ulong)readingNmbr, 75, ref resultDict, ref resultDictLength);
 		}
 
 		return sum;
